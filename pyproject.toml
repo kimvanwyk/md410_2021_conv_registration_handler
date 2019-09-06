@@ -7,6 +7,7 @@ authors = ["Kim van Wyk <kimv@sahomeloans.com>"]
 [tool.poetry.dependencies]
 python = "^3.6"
 boto3 = "^1.9"
+docker = "^4.0"
 
 [tool.poetry.dev-dependencies]
 ptpython = "^2.0"

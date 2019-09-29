@@ -1,0 +1,4 @@
+POST http://localhost:9003/reg_form_data
+Content-Type: application/json
+
+{"reg_num": "18"}

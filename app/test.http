@@ -1,4 +1,5 @@
 POST http://localhost:9003/reg_form_data
 Content-Type: application/json
-
+Authorization: 
 {"reg_num": "18"}
+

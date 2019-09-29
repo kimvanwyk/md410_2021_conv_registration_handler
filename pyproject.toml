@@ -12,6 +12,8 @@ pika = "^1.1"
 flask = "^1.1"
 Flask-BasicAuth = "^0.2.0"
 requests = "^2.22"
+fastapi = "^0.38.1"
+uvicorn = "^0.9.0"
 
 [tool.poetry.dev-dependencies]
 ptpython = "^2.0"

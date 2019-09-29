@@ -1,20 +1,25 @@
 import json
 
-from flask import Flask, request
-from flask_basicauth import BasicAuth
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from starlette.status import HTTP_401_UNAUTHORIZED
+from pydantic import BaseModel
 
-app = Flask(__name__)
+class Item(BaseModel):
+    reg_num: int
+
+app = FastAPI()
+security = HTTPBasic()
 
 with open('credentials.json', 'r') as fh:
-    credentials = json.load(fh)
+    creds = json.load(fh)
 
-app.config['BASIC_AUTH_USERNAME'] = credentials['username']
-app.config['BASIC_AUTH_PASSWORD'] = credentials['password']
-app.config['BASIC_AUTH_FORCE'] = True
-
-basic_auth = BasicAuth(app)
-
-@app.route('/reg_form_data', methods=['POST'])
-def reg_form_data():
-    print(request.json)
-    return f'Reg num: {request.json["reg_num"]}'
+@app.post('/reg_form_data')
+def reg_form_data(item: Item, credentials: HTTPBasicCredentials = Depends(security)):
+    if credentials.username != creds['username'] or credentials.password != creds['password']:
+        raise HTTPException(
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return f'Reg num: {item.reg_num}'

@@ -1,3 +1,8 @@
+""" Build an MDC2020 registration record from supplied reg num
+
+"""
+__author__ = "K van Wyk"
+__version__ = "0.0.1"
 import os, os.path
 
 import docker
@@ -8,14 +13,17 @@ import s3
 UPLOAD_CONTAINER = ('upload', 'registry.gitlab.com/md410_2020_conv/md410_2020_conv_reg_form_data_uploader:latest')
 MARKDOWN_CONTAINER = ('markdown', 'registry.gitlab.com/md410_2020_conv/md410_2020_conv_reg_form_markdown_creator:latest')
 PDF_CONTAINER = ('pdf', 'registry.gitlab.com/md410_2020_conv/md410_2020_conv_reg_form_pdf_creator:latest')
-NETWORK = "container:md410_2020_conv_postgres"
+NETWORK = "container:md4102020convregformserverconfig_postgres_1"
 QUEUE_NAME = 'reg_form'
 
 def build_doc(reg_num):
     client = docker.from_env()
 
     volumes = {os.getcwd(): {'bind':'/io', 'mode':'rw'}}
-
+    for c in [cont for (k,cont) in globals().items() if 'CONTAINER' in k]:
+        print(f'Pulling {c[1]}')
+        client.images.pull(c[1])
+        
     res = client.containers.run(UPLOAD_CONTAINER[1], name=UPLOAD_CONTAINER[0], command=f"/io/data.json",
                                 network=NETWORK, volumes=volumes, auto_remove=True, stdout=True, stderr=True, tty=False).decode('utf-8')
 
@@ -34,17 +42,12 @@ def process_reg_data(reg_num):
     s.upload_pdf_file(fn)
     print(f"processed reg num {reg_num}")
 
-def queue_callback(ch, method, properties, body):
-    process_reg_data(int(body))
-
-def handle_queue():
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
-    channel.queue_declare(queue=QUEUE_NAME)
-    channel.basic_consume(
-        queue=QUEUE_NAME, on_message_callback=queue_callback, auto_ack=True)
-    channel.start_consuming()
-
 if __name__ == '__main__':
-    handle_queue()
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument(
+        "reg_num", type=int, help="Registration number"
+    )
+    args = parser.parse_args()
+    process_reg_data(args.reg_num)

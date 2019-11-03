@@ -24,6 +24,12 @@ class S3(object):
         )
         d.upload_file(fn)
 
+    def download_pdf_file(self, reg_num, fn):
+        d = self.resource.Object(
+            bucket_name="md410-2020-conv", key=f"reg_forms/{self.reg_num:03}/{fn}"
+        )
+        d.download_file(fn)
+
 if __name__ == "__main__":
     s3 = S3(18)
     s3.upload_pdf_file("mdc2020_registration_018_k_van_wyk_v_van_wyk.pdf")

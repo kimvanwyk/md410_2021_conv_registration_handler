@@ -1,0 +1,25 @@
+Good day {first_names},
+
+Thank you for registering for the 2020 Multiple District 410 Convention, to be held at the Riverside Hotel in Ethekwini from 1-3 May 2019. 
+
+Please see attached for a record of your selected registration options. If there is a mistake, please contact the registration secretary Kim van Wyk on 083 384 4260 or vanwykk@gmail.com.
+
+The convention committee will be producing regular newsletters which will be emailed to you. The convention website at www.lionsconvention2020.co.za will also be regularly updated.
+
+Payment details are included in the attached document. Please make all payments to this account:
+
+* Bank: Nedbank
+* Account Type: Savings Account
+* Branch Code: 138026
+* Account Number: 2015836799
+* Account Name: Convention 2020
+
+Please make EFT payments rather than cash deposits wherever possible. Use the reference "{reg_nums}" when making payments. 
+
+Your registration will be finalised on the payment of a deposit of R{deposit}. Payments can be made in as many instalments as you wish, as long as full payment is received by 31 March 2020.
+
+Please send proof of payment for any payments made to vanwykk@gmail.com and dave.shone.za@gmail.com.
+
+Thank you again for registering for the 2020 MD410 Convention.
+
+The 2020 MD410 Convention Organising Committee

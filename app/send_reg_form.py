@@ -1,14 +1,17 @@
 """ Obtain a reg form record for a given reg number and provide email steps
 """
 
-import attr
+import os.path
 
 import s3
 
+import attr
 import pyperclip
 import sqlalchemy as sa
 
-BCC = '; '.join(["print.image@telkomsa.net", "david.shone.za@gmail.com"])
+BCC = '; '.join(["print.image@intekom.co.za", "david.shone.za@gmail.com"])
+with open("reg_form_msg.txt", "r") as fh:
+    BODY = fh.read()
 
 TABLES = {
     "registree": ("md410_2020_conv", "registree"),
@@ -68,15 +71,16 @@ class DB(object):
 
 def send_email(reg_num):
     s = s3.S3(reg_num)
-    s.download_data_file()
+    fn = s.download_pdf_file(reg_num)
 
     db = DB()
     registrees = db.get_registrees(args.reg_num)
-    reg_nums = "/".join([f"MDC{r.reg_num:03}" for r in registrees])
-    first_names = ' and '.join([r.first_names for r in registrees])
-    full_names = ' and '.join([f"{r.first_names} {r.last_name}" for r in registrees])
+    reg_nums = "/".join([f"{r.reg_num:03}" for r in registrees])
+    reg_nums = f"MDC{reg_nums}"
+    first_names = ' and '.join([r.first_names.strip() for r in registrees])
+    full_names = ' and '.join([f"{r.first_names.strip()} {r.last_name.strip()}" for r in registrees])
     emails = '; '.join([r.email for r in registrees if r.email])
-    print(first_names, full_names, emails)
+    deposit = 300 * len(registrees)
 
     if emails:
         pyperclip.copy(emails)
@@ -89,7 +93,12 @@ def send_email(reg_num):
         pyperclip.copy(subject)
         print(f"Subject copied to clipboard: {subject}")
         input()
-        
+        body = BODY.format(**locals())
+        pyperclip.copy(body)
+        print(body)
+        input()
+        pyperclip.copy(fn)
+        print(os.path.abspath(fn)
 
 if __name__ == '__main__':
     import argparse

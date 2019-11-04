@@ -24,12 +24,17 @@ class S3(object):
         )
         d.upload_file(fn)
 
-    def download_pdf_file(self, reg_num, fn):
-        d = self.resource.Object(
-            bucket_name="md410-2020-conv", key=f"reg_forms/{self.reg_num:03}/{fn}"
-        )
-        d.download_file(fn)
-
+    def download_pdf_file(self, reg_num):
+        bucket = self.resource.Bucket("md410-2020-conv")
+        objects = bucket.objects.all()
+        for obj in objects:
+            if all(item in obj.key for item in (f"{reg_num:03}", "mdc2020_registration", ".pdf")):
+                fn = obj.key.rsplit('/')[-1]
+                d = self.resource.Object(bucket_name=obj.bucket_name, key=obj.key)
+                d.download_file(fn)
+                break
+        return fn
+        
 if __name__ == "__main__":
     s3 = S3(18)
     s3.upload_pdf_file("mdc2020_registration_018_k_van_wyk_v_van_wyk.pdf")

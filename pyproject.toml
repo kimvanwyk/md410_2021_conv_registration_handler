@@ -11,6 +11,7 @@ docker = "^4.0"
 pika = "^1.1"
 sqlalchemy = "^1.3"
 psycopg2-binary = "^2.8"
+pyperclip = "^1.7"
 
 [tool.poetry.dev-dependencies]
 ptpython = "^2.0"

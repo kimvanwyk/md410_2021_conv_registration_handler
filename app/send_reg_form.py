@@ -5,7 +5,10 @@ import attr
 
 import s3
 
+import pyperclip
 import sqlalchemy as sa
+
+BCC = '; '.join(["print.image@telkomsa.net", "david.shone.za@gmail.com"])
 
 TABLES = {
     "registree": ("md410_2020_conv", "registree"),
@@ -69,7 +72,24 @@ def send_email(reg_num):
 
     db = DB()
     registrees = db.get_registrees(args.reg_num)
-    print(registrees)
+    reg_nums = "/".join([f"MDC{r.reg_num:03}" for r in registrees])
+    first_names = ' and '.join([r.first_names for r in registrees])
+    full_names = ' and '.join([f"{r.first_names} {r.last_name}" for r in registrees])
+    emails = '; '.join([r.email for r in registrees if r.email])
+    print(first_names, full_names, emails)
+
+    if emails:
+        pyperclip.copy(emails)
+        print(f"To: addresses copied to clipboard: {emails}")
+        input()
+        pyperclip.copy(BCC)
+        print(f"BCC: addresses copied to clipboard: {BCC}")
+        input()
+        subject = f'Registration for 2020 MD410 Convention for {full_names}. Registration numbers: {reg_nums}'
+        pyperclip.copy(subject)
+        print(f"Subject copied to clipboard: {subject}")
+        input()
+        
 
 if __name__ == '__main__':
     import argparse

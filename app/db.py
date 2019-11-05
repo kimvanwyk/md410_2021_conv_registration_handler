@@ -8,6 +8,11 @@ TWOPLACES = Decimal(10) ** -2
 
 TABLES = {
     "registree": ("md410_2020_conv", "registree"),
+    "club": ("md410_2020_conv", "club"),
+    "partner_program": ("md410_2020_conv", "partner_program"),
+    "full_reg": ("md410_2020_conv", "full_reg"),
+    "partial_reg": ("md410_2020_conv", "partial_reg"),
+    "pins": ("md410_2020_conv", "pins"),
     "registree_pair": ("md410_2020_conv", "registree_pair"),
     "payment": ("md410_2020_conv", "payment")
 }
@@ -74,3 +79,67 @@ class DB(object):
             }
             res = self.engine.execute(tp.insert(d))
 
+    def upload_registree(self, registree):
+        tr = self.tables["registree"]
+        tc = self.tables["club"]
+        tpp = self.tables["partner_program"]
+        tfr = self.tables["full_reg"]
+        tpr = self.tables["partial_reg"]
+        tp = self.tables["pins"]
+        for t in (tr, tc, tpp, tfr, tpr, tp):
+            self.engine.execute(t.delete(t.c.reg_num == registree.reg_num))
+
+        vals = dict(
+            (k, getattr(registree, k))
+            for k in (
+                "reg_num",
+                "timestamp",    
+                "first_names",
+                "last_name",
+                "cell",
+                "email",
+                "dietary",
+                "disability",
+                "name_badge",
+                "first_mdc",
+                "mjf_lunch",
+                "pdg_breakfast",
+                "is_lion",
+                "sharks_board",
+                "golf",
+                "sight_seeing",
+                "service_project",
+            )
+        )
+        self.engine.execute(tr.insert(vals))
+
+        if registree.is_lion:
+            vals = {"reg_num": registree.reg_num, "club": registree.club}
+            self.engine.execute(tc.insert(vals))
+        else:
+            vals = {"reg_num": registree.reg_num, "quantity": 1}
+            self.engine.execute(tpp.insert(vals))
+
+        if registree.full_reg:
+            vals = {"reg_num": registree.reg_num, "quantity": registree.full_reg}
+            self.engine.execute(tfr.insert(vals))
+
+        if registree.partial_reg:
+            vals = {
+                "reg_num": registree.reg_num,
+                "banquet_quantity": registree.partial_reg.banquet,
+                "convention_quantity": registree.partial_reg.convention,
+                "theme_quantity": registree.partial_reg.theme,
+            }
+            self.engine.execute(tpr.insert(vals))
+
+        if registree.pins:
+            vals = {"reg_num": registree.reg_num, "quantity": registree.pins}
+            self.engine.execute(tp.insert(vals))
+
+    def pair_registrees(self, first_reg_num, second_reg_num):
+        tp = self.tables["registree_pair"]
+        self.engine.execute(tp.delete(tp.c.first_reg_num == first_reg_num))
+
+        vals = {"first_reg_num": first_reg_num, "second_reg_num": second_reg_num}
+        self.engine.execute(tp.insert(vals))

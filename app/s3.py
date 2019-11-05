@@ -13,10 +13,12 @@ class S3(object):
         self.reg_num = reg_num
 
     def download_data_file(self):
+        fn = 'data.json'
         d = self.resource.Object(
             bucket_name="md410-2020-conv", key=f"reg_forms/{self.reg_num:03}/data.json"
         )
-        d.download_file("data.json")
+        d.download_file(fn)
+        return fn
 
     def upload_pdf_file(self, fn):
         d = self.resource.Object(

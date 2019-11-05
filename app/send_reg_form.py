@@ -89,7 +89,7 @@ def send_email(reg_num):
         pyperclip.copy(BCC)
         print(f"BCC: addresses copied to clipboard: {BCC}")
         input()
-        subject = f'Registration for 2020 MD410 Convention for {full_names}. Registration numbers: {reg_nums}'
+        subject = f'Registration for 2020 MD410 Convention for {full_names}. Registration number{"s" if len(registrees) > 1 else ""}: {reg_nums}'
         pyperclip.copy(subject)
         print(f"Subject copied to clipboard: {subject}")
         input()
@@ -98,7 +98,7 @@ def send_email(reg_num):
         print(body)
         input()
         pyperclip.copy(fn)
-        print(os.path.abspath(fn)
+        print(os.path.abspath(fn))
 
 if __name__ == '__main__':
     import argparse

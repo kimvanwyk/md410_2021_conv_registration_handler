@@ -6,8 +6,10 @@ __version__ = "0.0.1"
 import os, os.path
 
 from upload_data import upload_reg_form
+
 import docker
 import pika
+import pyperclip
 import s3
 
 MARKDOWN_CONTAINER = ('markdown', 'registry.gitlab.com/md410_2020_conv/md410_2020_conv_reg_form_markdown_creator:latest')
@@ -38,6 +40,7 @@ def process_reg_data(reg_num):
     fn = build_doc(reg_num)
     s.upload_pdf_file(fn)
     print(f"processed reg num {reg_num}. File: {fn}")
+    pyperclip.copy(f"evince {fn} &")
 
 if __name__ == '__main__':
     import argparse

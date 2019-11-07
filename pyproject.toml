@@ -8,7 +8,6 @@ authors = ["Kim van Wyk <kimv@sahomeloans.com>"]
 python = "^3.6"
 boto3 = "^1.9"
 docker = "^4.0"
-pika = "^1.1"
 sqlalchemy = "^1.3"
 psycopg2-binary = "^2.8"
 pyperclip = "^1.7"

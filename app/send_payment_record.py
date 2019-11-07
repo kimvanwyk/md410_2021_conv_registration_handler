@@ -1,4 +1,4 @@
-""" Obtain a reg form record for a given reg number and provide email steps
+""" Obtain a payment record for a given reg number and provide email steps
 """
 
 import os.path
@@ -10,12 +10,12 @@ import attr
 import pyperclip
 
 BCC = '; '.join(["print.image@intekom.co.za", "david.shone.za@gmail.com"])
-with open("reg_form_msg.txt", "r") as fh:
+with open("payment_msg.txt", "r") as fh:
     BODY = fh.read()
 
 def send_email(reg_num):
     s = s3.S3(reg_num)
-    fn = s.download_pdf_reg_file(reg_num)
+    fn = s.download_pdf_payment_file(reg_num)
 
     db = DB()
     registrees = db.get_registrees(args.reg_num)
@@ -24,7 +24,6 @@ def send_email(reg_num):
     first_names = ' and '.join([r.first_names.strip() for r in registrees])
     full_names = ' and '.join([f"{r.first_names.strip()} {r.last_name.strip()}" for r in registrees])
     emails = '; '.join([r.email for r in registrees if r.email])
-    deposit = 300 * len(registrees)
 
     if emails:
         pyperclip.copy(emails)
@@ -33,7 +32,7 @@ def send_email(reg_num):
         pyperclip.copy(BCC)
         print(f"BCC: addresses copied to clipboard: {BCC}")
         input()
-        subject = f'Registration for 2020 MD410 Convention for {full_names}. Registration number{"s" if len(registrees) > 1 else ""}: {reg_nums}'
+        subject = f'Payments for 2020 MD410 Convention for {full_names}. Registration number{"s" if len(registrees) > 1 else ""}: {reg_nums}'
         pyperclip.copy(subject)
         print(f"Subject copied to clipboard: {subject}")
         input()

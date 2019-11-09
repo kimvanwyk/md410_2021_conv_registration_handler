@@ -32,10 +32,11 @@ def build_doc(reg_num):
                                 network=NETWORK, volumes=volumes, auto_remove=True, stdout=True, stderr=True, tty=False).decode('utf-8')
     return f"{os.path.splitext(in_file)[0]}.pdf"
 
-def process_reg_data(reg_num):
+def process_reg_data(reg_num, rebuild=False):
     s = s3.S3(reg_num)
-    fn = s.download_data_file()
-    upload_reg_form(fn)
+    if not rebuild:
+        fn = s.download_data_file()
+        upload_reg_form(fn)
     fn = build_doc(reg_num)
     s.upload_pdf_file(fn)
     print(f"processed reg num {reg_num}. File: {fn}")
@@ -48,5 +49,8 @@ if __name__ == '__main__':
     parser.add_argument(
         "reg_num", type=int, help="Registration number"
     )
+    parser.add_argument(
+        "--rebuild", action="store_true", help="Rebuild only, no S3 download or DB upload"
+    )
     args = parser.parse_args()
-    process_reg_data(args.reg_num)
+    process_reg_data(args.reg_num, args.rebuild)

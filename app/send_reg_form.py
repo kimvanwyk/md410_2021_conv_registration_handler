@@ -43,7 +43,8 @@ def send_email(reg_num):
         input()
         pyperclip.copy(fn)
         print(os.path.abspath(fn))
-
+    else:
+        print("No email addresses supplied")
 if __name__ == '__main__':
     import argparse
 

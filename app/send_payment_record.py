@@ -23,7 +23,7 @@ def send_email(reg_num):
     reg_nums = f"MDC{reg_nums}"
     first_names = ' and '.join([r.first_names.strip() for r in registrees])
     full_names = ' and '.join([f"{r.first_names.strip()} {r.last_name.strip()}" for r in registrees])
-    emails = '; '.join([r.email for r in registrees if r.email])
+    emails = '; '.join(set([r.email for r in registrees if r.email]))
 
     if emails:
         pyperclip.copy(emails)

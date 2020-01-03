@@ -11,7 +11,7 @@ import s3
 
 MARKDOWN_CONTAINER = ('markdown', 'registry.gitlab.com/md410_2020_conv/md410_2020_conv_payment_record_markdown_creator:latest')
 PDF_CONTAINER = ('pdf', 'registry.gitlab.com/md410_2020_conv/md410_2020_conv_reg_form_pdf_creator:latest')
-NETWORK = "container:md4102020convregformserverconfig_postgres_1"
+NETWORK = "container:md410_2020_conv_reg_form_server_config_postgres_1"
 QUEUE_NAME = 'reg_form'
 
 def build_doc(reg_num):

@@ -14,8 +14,6 @@ def get_registree_emails():
 
 
 def copy_registree_email_list(debug=False):
-    """ kwds accepted to allow sub process argparse handling with minimal extra code
-    """
 
     emails = "; ".join(get_registree_emails())
     if debug:

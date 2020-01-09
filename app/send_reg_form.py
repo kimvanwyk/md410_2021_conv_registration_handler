@@ -9,9 +9,10 @@ import s3
 import attr
 import pyperclip
 
-BCC = '; '.join(["print.image@intekom.co.za", "david.shone.za@gmail.com"])
+BCC = "; ".join(["print.image@intekom.co.za", "david.shone.za@gmail.com"])
 with open("reg_form_msg.txt", "r") as fh:
     BODY = fh.read()
+
 
 def send_email(reg_num):
     s = s3.S3(reg_num)
@@ -21,9 +22,11 @@ def send_email(reg_num):
     registrees = db.get_registrees(args.reg_num)
     reg_nums = "/".join([f"{r.reg_num:03}" for r in registrees])
     reg_nums = f"MDC{reg_nums}"
-    first_names = ' and '.join([r.first_names.strip() for r in registrees])
-    full_names = ' and '.join([f"{r.first_names.strip()} {r.last_name.strip()}" for r in registrees])
-    emails = '; '.join([r.email for r in registrees if r.email])
+    first_names = " and ".join([r.first_names.strip() for r in registrees])
+    full_names = " and ".join(
+        [f"{r.first_names.strip()} {r.last_name.strip()}" for r in registrees]
+    )
+    emails = "; ".join([r.email for r in registrees if r.email])
     deposit = 300 * len(registrees)
 
     if emails:
@@ -45,12 +48,12 @@ def send_email(reg_num):
         print(os.path.abspath(fn))
     else:
         print("No email addresses supplied")
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument(
-        "reg_num", type=int, help="Registration number"
-    )
+    parser.add_argument("reg_num", type=int, help="Registration number")
     args = parser.parse_args()
     send_email(args.reg_num)

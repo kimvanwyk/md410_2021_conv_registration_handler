@@ -19,6 +19,7 @@ BOOLS = (
     "service_project",
 )
 
+
 @attr.s
 class PartialReg(object):
     banquet = attr.ib(default=0)

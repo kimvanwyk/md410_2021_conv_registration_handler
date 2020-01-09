@@ -14,8 +14,9 @@ TABLES = {
     "partial_reg": ("md410_2020_conv", "partial_reg"),
     "pins": ("md410_2020_conv", "pins"),
     "registree_pair": ("md410_2020_conv", "registree_pair"),
-    "payment": ("md410_2020_conv", "payment")
+    "payment": ("md410_2020_conv", "payment"),
 }
+
 
 @attr.s
 class Registree(object):
@@ -52,8 +53,12 @@ class DB(object):
     def get_registrees(self, reg_num):
         self.set_reg_nums(reg_num)
         tr = self.tables["registree"]
-        res = self.engine.execute(sa.select([tr.c.reg_num, tr.c.first_names, tr.c.last_name, tr.c.cell, tr.c.email],
-                                            tr.c.reg_num.in_(self.reg_nums))).fetchall()
+        res = self.engine.execute(
+            sa.select(
+                [tr.c.reg_num, tr.c.first_names, tr.c.last_name, tr.c.cell, tr.c.email],
+                tr.c.reg_num.in_(self.reg_nums),
+            )
+        ).fetchall()
         registrees = []
         for r in res:
             registrees.append(Registree(*r))
@@ -61,7 +66,11 @@ class DB(object):
 
     def get_all_registrees(self):
         tr = self.tables["registree"]
-        res = self.engine.execute(sa.select([tr.c.reg_num, tr.c.first_names, tr.c.last_name, tr.c.cell, tr.c.email])).fetchall()
+        res = self.engine.execute(
+            sa.select(
+                [tr.c.reg_num, tr.c.first_names, tr.c.last_name, tr.c.cell, tr.c.email]
+            )
+        ).fetchall()
         registrees = []
         for r in res:
             registrees.append(Registree(*r))
@@ -69,22 +78,22 @@ class DB(object):
 
     def set_reg_nums(self, reg_num):
         tp = self.tables["registree_pair"]
-        res = self.engine.execute(sa.select([tp.c.first_reg_num, tp.c.second_reg_num],
-                                            sa.or_(tp.c.first_reg_num == reg_num,
-                                                   tp.c.second_reg_num == reg_num))).fetchone()
+        res = self.engine.execute(
+            sa.select(
+                [tp.c.first_reg_num, tp.c.second_reg_num],
+                sa.or_(tp.c.first_reg_num == reg_num, tp.c.second_reg_num == reg_num),
+            )
+        ).fetchone()
         if res:
             self.reg_nums = [res[0], res[1]]
         else:
             self.reg_nums = [reg_num]
 
     def record_payment(self, amount, timestamp):
-        tp = self.tables['payment']
+        tp = self.tables["payment"]
         amt = Decimal(amount).quantize(TWOPLACES) / (len(self.reg_nums))
         for rn in self.reg_nums:
-            d = {'timestamp': timestamp,
-                 'reg_num': rn,
-                 'amount': amt
-            }
+            d = {"timestamp": timestamp, "reg_num": rn, "amount": amt}
             res = self.engine.execute(tp.insert(d))
 
     def upload_registree(self, registree):
@@ -101,7 +110,7 @@ class DB(object):
             (k, getattr(registree, k))
             for k in (
                 "reg_num",
-                "timestamp",    
+                "timestamp",
                 "first_names",
                 "last_name",
                 "cell",

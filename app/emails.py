@@ -13,7 +13,7 @@ def get_registree_emails():
     return emails
 
 
-def copy_registree_email_list(debug=False, **kwds):
+def copy_registree_email_list(debug=False):
     """ kwds accepted to allow sub process argparse handling with minimal extra code
     """
 
@@ -37,4 +37,8 @@ if __name__ == "__main__":
     )
     parser_registree_emails.set_defaults(func=copy_registree_email_list)
     args = parser.parse_args()
-    args.func(**vars(args))
+    args_dict = {}
+    for k in vars(args):
+        if k not in ('func',):
+            args_dict[k] = getattr(args, k)
+    args.func(args_dict)

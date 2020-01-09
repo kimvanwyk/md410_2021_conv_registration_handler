@@ -59,6 +59,14 @@ class DB(object):
             registrees.append(Registree(*r))
         return registrees
 
+    def get_all_registrees(self):
+        tr = self.tables["registree"]
+        res = self.engine.execute(sa.select([tr.c.reg_num, tr.c.first_names, tr.c.last_name, tr.c.cell, tr.c.email])).fetchall()
+        registrees = []
+        for r in res:
+            registrees.append(Registree(*r))
+        return registrees
+
     def set_reg_nums(self, reg_num):
         tp = self.tables["registree_pair"]
         res = self.engine.execute(sa.select([tp.c.first_reg_num, tp.c.second_reg_num],

@@ -3,6 +3,8 @@ from decimal import Decimal, getcontext
 import attr
 import sqlalchemy as sa
 
+import os
+
 getcontext().prec = 20
 TWOPLACES = Decimal(10) ** -2
 
@@ -40,7 +42,7 @@ class DB(object):
 
     def __attrs_post_init__(self):
         self.engine = sa.create_engine(
-            f"postgresql+psycopg2://{self.user}@{self.host}/{self.dbname}"
+            f"postgresql+psycopg2://{self.user}:{os.getenv('PGPASSWORD')}@{self.host}:{self.port}/{self.dbname}"
         )
         md = sa.MetaData()
         md.bind = self.engine

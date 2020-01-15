@@ -35,6 +35,7 @@ def build_doc(reg_num):
         command=f"{reg_num}",
         network=NETWORK,
         volumes=volumes,
+        environment={'PGPASSWORD': os.getenv('PGPASSWORD')},
         auto_remove=True,
         stdout=True,
         stderr=True,

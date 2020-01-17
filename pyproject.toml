@@ -5,7 +5,7 @@ description = "Script and flask app to coordinate S3 data retrieval, docker mark
 authors = ["Kim van Wyk <kimv@sahomeloans.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 boto3 = "^1.9"
 docker = "^4.0"
 sqlalchemy = "^1.3"

@@ -5,7 +5,7 @@ from datetime import datetime
 from decimal import Decimal, getcontext
 import os.path
 
-from db import DB
+from md410_2020_conv_common.db import DB
 
 import attr
 import sqlalchemy as sa

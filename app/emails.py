@@ -1,7 +1,7 @@
 """ Registree and committee email helper functions
 """
 
-from db import DB
+from md410_2020_conv_common.db import DB
 
 import pyperclip
 

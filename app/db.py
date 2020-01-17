@@ -34,15 +34,16 @@ class DB(object):
     """ Handle postgres database interaction
     """
 
-    host = attr.ib(default="localhost")
-    port = attr.ib(default=5432)
-    user = attr.ib(default="postgres")
+    host = attr.ib(default=os.getenv('PGHOST', "localhost"))
+    port = attr.ib(default=os.getenv('PGPORT', 5432))
+    user = attr.ib(default=os.getenv('PGUSER', "postgres"))
+    password = attr.ib(default=os.getenv('PGPASSWORD'))
     dbname = attr.ib(default="postgres")
     debug = attr.ib(default=False)
 
     def __attrs_post_init__(self):
         self.engine = sa.create_engine(
-            f"postgresql+psycopg2://{self.user}:{os.getenv('PGPASSWORD')}@{self.host}:{self.port}/{self.dbname}"
+            f"postgresql+psycopg2://{self.user}:{self.password}@{self.host}:{self.port}/{self.dbname}"
         )
         md = sa.MetaData()
         md.bind = self.engine

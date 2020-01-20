@@ -26,7 +26,7 @@ def send_email(reg_num):
     full_names = " and ".join(
         [f"{r.first_names.strip()} {r.last_name.strip()}" for r in registrees]
     )
-    emails = "; ".join([r.email for r in registrees if r.email])
+    emails = "; ".join(set([r.email for r in registrees if r.email]))
     deposit = 300 * len(registrees)
 
     if emails:

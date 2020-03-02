@@ -22,9 +22,9 @@ def send_email(reg_num):
     registrees = db.get_registrees(args.reg_num)
     reg_nums = "/".join([f"{r.reg_num:03}" for r in registrees])
     reg_nums = f"MDC{reg_nums}"
-    first_names = " and ".join([r.first_names.strip() for r in registrees])
+    first_names = " and ".join([r.titled_first_names for r in registrees])
     full_names = " and ".join(
-        [f"{r.first_names.strip()} {r.last_name.strip()}" for r in registrees]
+        [f"{r.titled_first_names} {r.last_name.strip()}" for r in registrees]
     )
     emails = "; ".join(set([r.email for r in registrees if r.email]))
     deposit = 300 * len(registrees)

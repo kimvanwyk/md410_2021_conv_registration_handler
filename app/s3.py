@@ -45,5 +45,5 @@ class S3(object):
 
 
 if __name__ == "__main__":
-    s3 = S3(18)
-    s3.upload_pdf_file("mdc2020_registration_018_k_van_wyk_v_van_wyk.pdf")
+    s3 = S3(73)
+    s3.download_data_file()

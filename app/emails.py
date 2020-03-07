@@ -10,19 +10,22 @@ import os, os.path
 class Error(Exception):
     pass
 
-def get_registree_emails():
+def get_registree_emails(filter_attributes=[]):
     dbh = DB()
-    emails = list(set([r.email for r in dbh.get_all_registrees() if r.email]))
+    fas = [('email', True)]
+    for fa in filter_attributes:
+        fas.append(fa)
+    emails = list(set([r.email for r in dbh.get_all_registrees() if all([bool(getattr(r, a)) == v for (a,v) in fas])]))
     emails.sort()
     return emails
 
-def get_registree_email_string():
-    emails = "; ".join(get_registree_emails())
+def get_registree_email_string(filter_attributes=[]):
+    emails = "; ".join(get_registree_emails(filter_attributes=filter_attributes))
     return emails
 
-def copy_registree_email_list(debug=False):
+def copy_registree_email_list(filter_attributes=[], debug=False):
 
-    emails = get_registree_email_string()
+    emails = get_registree_email_string(filter_attributes=filter_attributes)
     if debug:
         print("Registree emails:", emails)
     pyperclip.copy(emails)
@@ -61,6 +64,9 @@ if __name__ == "__main__":
     parser_registree_emails.add_argument(
         "-v", "--verbose", action="store_true", dest="debug", help="Enable debug output"
     )
+    parser_registree_emails.add_argument(
+         "-u", "--unpaid_only", action="store_true", help="Only provides email for people who have not paid in full"
+    )
     parser_registree_emails.set_defaults(func=copy_registree_email_list)
 
     parser_email_registrees = subparsers.add_parser(
@@ -74,7 +80,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args_dict = {}
     for k in vars(args):
-        if k not in ('func',):
+        if k == 'unpaid_only':
+            if getattr(args, k):
+                args_dict['filter_attributes'] = [('paid_in_full', False)]
+        elif k not in ('func',):
             args_dict[k] = getattr(args, k)
+        
     if hasattr(args, 'func'):
         args.func(**args_dict)

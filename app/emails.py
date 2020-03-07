@@ -32,14 +32,14 @@ def copy_registree_email_list(filter_attributes=[], debug=False):
     print("Registree emails copied to clipboard")
 
 
-def send_email_to_registrees(text_file):
+def send_email_to_registrees(text_file, filter_attributes=[]):
     try:
         with open(text_file, 'r') as fh:
             text = [l.strip() for l in fh]
     except Exception as e:
         raise
         raise Error(f'Specified text file "{text_file}" does not exist or cannot be opened')
-    emails = get_registree_email_string()
+    emails = get_registree_email_string(filter_attributes=filter_attributes)
     pyperclip.copy(emails)
     print(f"To: addresses copied to clipboard: {emails}")
     input()
@@ -74,6 +74,9 @@ if __name__ == "__main__":
     )
     parser_email_registrees.add_argument(
         "text_file", help="Text file to read the email subject and body from"
+    )
+    parser_email_registrees.add_argument(
+         "-u", "--unpaid_only", action="store_true", help="Only provides email for people who have not paid in full"
     )
     parser_email_registrees.set_defaults(func=send_email_to_registrees)
 

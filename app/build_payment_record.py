@@ -21,13 +21,14 @@ NETWORK = "container:md410_2020_conv_reg_form_server_config_postgres_1"
 QUEUE_NAME = "reg_form"
 
 
-def build_doc(reg_num):
+def build_doc(reg_num, pull=False):
     client = docker.from_env()
 
     volumes = {os.getcwd(): {"bind": "/io", "mode": "rw"}}
-    for c in [cont for (k, cont) in globals().items() if "CONTAINER" in k]:
-        print(f"Pulling {c[1]}")
-        client.images.pull(c[1])
+    if pull:
+        for c in [cont for (k, cont) in globals().items() if "CONTAINER" in k]:
+            print(f"Pulling {c[1]}")
+            client.images.pull(c[1])
 
     res = client.containers.run(
         MARKDOWN_CONTAINER[1],
@@ -58,9 +59,9 @@ def build_doc(reg_num):
     return f"{os.path.splitext(in_file)[0]}.pdf"
 
 
-def process_reg_num(reg_num):
+def process_reg_num(reg_num, pull=False):
     s = s3.S3(reg_num)
-    fn = build_doc(reg_num)
+    fn = build_doc(reg_num, pull)
     s.upload_pdf_file(fn)
     print(f"processed reg num {reg_num}. File: {fn}")
     pyperclip.copy(f"evince {fn} &")
@@ -71,5 +72,6 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("reg_num", type=int, help="Registration number")
+    parser.add_argument("--pull", action="store_true", help="Whether to also pull fresh containers")
     args = parser.parse_args()
-    process_reg_num(args.reg_num)
+    process_reg_num(args.reg_num, args.pull)

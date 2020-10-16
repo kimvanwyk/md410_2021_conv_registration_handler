@@ -1,9 +1,17 @@
-""" Build an MDC2020 registration record from supplied reg num
+""" Build an MDC2021 registration record from supplied reg num
 
 """
 __author__ = "K van Wyk"
 __version__ = "0.0.1"
+from datetime import date
 import os, os.path
+
+
+
+# from md410_2020_conv_common.db import DB
+import sys
+sys.path.insert(0, "/home/kimv/src/md410_2020_conv_common/md410_2020_conv_common")
+from db import DB
 
 from upload_data import upload_reg_form
 
@@ -61,10 +69,31 @@ def build_doc(reg_num, pull=False):
 
 
 def process_reg_data(reg_num, rebuild=False, pull=False):
-    s = s3.S3(reg_num)
+    # s = s3.S3(reg_num)
     if not rebuild:
-        fn = s.download_data_file()
-        upload_reg_form(fn)
+        # fn = s.download_data_file()
+        fn = "data.json"
+        (first_attendee, second_attendee) = upload_reg_form(fn)
+        db = DB()
+        payees = db.get_2020_payees()
+        registrees = [f"{first_attendee.first_names} {first_attendee.last_name}"]
+        if second_attendee:
+            registrees.append(f"{second_attendee.first_names} {second_attendee.last_name}")
+        print(f"Registrees: {'; '.join(registrees)}")
+        print("Should any of the below payments from 2020 be applied to this registration?")
+        for (r, (name, amt)) in payees.items():
+            print(f"{r:003}: {name}: R{amt}")
+        print()
+        previous_payments = 0
+        while True:
+            payee_reg = input("Applicable reg num: ")
+            if not payee_reg:
+                break
+            previous_payments += payees[int(payee_reg)][-1]
+        print(previous_payments)
+        db.set_reg_nums(first_attendee.reg_num)
+        db.record_payment(previous_payments, date(year=2020, month=5, day=1))
+
     fn = build_doc(reg_num, pull)
     s.upload_pdf_file(fn)
     print(f"processed reg num {reg_num}. File: {fn}")

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "md410_2020_conv_reg_form_overall_creator"
-version = "0.1.0"
+version = "0.2.0"
 description = "Script and flask app to coordinate S3 data retrieval, docker markdown and PDF creation and S3 upload of a completed form"
 authors = ["Kim van Wyk <kimv@sahomeloans.com>"]
 

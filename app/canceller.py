@@ -21,7 +21,7 @@ def process(orig_reg_nums):
             registrees = dbh.get_all_registrees(rns)
             names = " and ".join([f"{r.titled_first_names} {r.last_name}" for r in registrees])
             reg_num_string = "/".join([f"{r.reg_num:03}" for r in registrees])
-            total = sum([r.payments for r in registrees])
+            total = sum(r.payments for r in registrees)
             out.append(f"{names}, MDC{reg_num_string}, R{total}:")
 
     dbh.cancel_registration(reg_nums)

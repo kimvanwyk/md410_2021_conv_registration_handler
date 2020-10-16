@@ -4,7 +4,11 @@
 import attr
 from dateutil.parser import parse
 
-from md410_2020_conv_common.db import DB
+#from md410_2020_conv_common.db import DB
+
+import sys
+sys.path.insert(0, "/home/kimv/src/md410_2020_conv_common/md410_2020_conv_common")
+from db import DB
 
 import json
 import os.path
@@ -12,11 +16,11 @@ import os.path
 BOOLS = (
     "first_mdc",
     "mjf_lunch",
-    "pdg_breakfast",
-    "sharks_board",
-    "golf",
-    "sight_seeing",
-    "service_project",
+    # "pdg_breakfast",
+    # "sharks_board",
+    # "golf",
+    # "sight_seeing",
+    # "service_project",
 )
 
 
@@ -40,11 +44,11 @@ class Registree(object):
     name_badge = attr.ib()
     first_mdc = attr.ib()
     mjf_lunch = attr.ib()
-    pdg_breakfast = attr.ib()
-    sharks_board = attr.ib()
-    golf = attr.ib()
-    sight_seeing = attr.ib()
-    service_project = attr.ib()
+    # pdg_breakfast = attr.ib()
+    # sharks_board = attr.ib()
+    # golf = attr.ib()
+    # sight_seeing = attr.ib()
+    # service_project = attr.ib()
     full_reg = attr.ib(default=0)
     partial_reg = attr.ib(default=None)
     pins = attr.ib(default=0)
@@ -59,6 +63,7 @@ class Registree(object):
 @attr.s
 class LionRegistree(Registree):
     club = attr.ib(default=None)
+    district = attr.ib(default=None)
     is_lion = attr.ib(default=True)
 
     def __attrs_post_init__(self):
@@ -93,10 +98,9 @@ def parse_reg_form_fields(form_data, out_dir=None):
             t = parse(v, yearfirst=True)
             first_data["timestamp"] = t
             second_data["timestamp"] = t
-        if k in ("registration_number",):
-            if not reg_num:
-                reg_num = int(v)
-                first_data["reg_num"] = reg_num
+        if k in ("registration_number",) and not reg_num:
+            reg_num = int(v)
+            first_data["reg_num"] = reg_num
         if "main_" in k:
             name = k[5:]
             if name in BOOLS:
@@ -112,15 +116,15 @@ def parse_reg_form_fields(form_data, out_dir=None):
             if full_reg:
                 first_data["full_reg"] = 1
                 full_reg -= 1
-                if full_reg:
-                    second_data["full_reg"] = full_reg
+            if full_reg:
+                second_data["full_reg"] = full_reg
         if not is_full_reg and ("partial_reg" in k):
             p = int(v)
             if p:
                 setattr(first_partial_reg, k.replace("partial_reg_", ""), 1)
                 p -= 1
-                if p:
-                    setattr(second_partial_reg, k.replace("partial_reg_", ""), p)
+            if p:
+                setattr(second_partial_reg, k.replace("partial_reg_", ""), p)
         if k in ("pins",):
             first_data["pins"] = int(v if v else 0)
     if first_partial_reg:
@@ -149,7 +153,7 @@ def upload_reg_form(reg_form_file):
     if second_attendee:
         db.upload_registree(second_attendee)
         db.pair_registrees(first_attendee.reg_num, second_attendee.reg_num)
-
+    return (first_attendee, second_attendee)
 
 if __name__ == "__main__":
     import argparse

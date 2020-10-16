@@ -13,6 +13,10 @@ import sys
 sys.path.insert(0, "/home/kimv/src/md410_2020_conv_common/md410_2020_conv_common")
 from db import DB
 
+import sys
+sys.path.insert(0, "/home/kimv/src/md410_2020_conv_reg_form_markdown_creator/app/")
+import create_registration_record_markdown
+
 from upload_data import upload_reg_form
 
 import docker
@@ -40,19 +44,20 @@ def build_doc(reg_num, pull=False):
             print(f"Pulling {c[1]}")
             client.images.pull(c[1])
 
-    res = client.containers.run(
-        MARKDOWN_CONTAINER[1],
-        name=MARKDOWN_CONTAINER[0],
-        command=f"{reg_num}",
-        network=NETWORK,
-        volumes=volumes,
-        environment={'PGPASSWORD': os.getenv('PGPASSWORD')},
-        auto_remove=True,
-        stdout=True,
-        stderr=True,
-        tty=False,
-    ).decode("utf-8")
-    in_file = res.strip().split("/")[-1]
+    # res = client.containers.run(
+    #     MARKDOWN_CONTAINER[1],
+    #     name=MARKDOWN_CONTAINER[0],
+    #     command=f"{reg_num}",
+    #     network=NETWORK,
+    #     volumes=volumes,
+    #     environment={'PGPASSWORD': os.getenv('PGPASSWORD')},
+    #     auto_remove=True,
+    #     stdout=True,
+    #     stderr=True,
+    #     tty=False,
+    # ).decode("utf-8")
+    # in_file = res.strip().split("/")[-1]
+    create_registration_record_markdown.main(reg_num, ".", True)
 
     res = client.containers.run(
         PDF_CONTAINER[1],

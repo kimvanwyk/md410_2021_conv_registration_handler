@@ -153,9 +153,13 @@ Thank you again for registering for the 2021 MD410 Convention.
 
 
 
-def main(reg_num, out_dir, print_fn=False):
-    dbh = db.DB()
-    registree_set = dbh.get_registrees(reg_num)
+def main(out_dir, reg_num=None, registree_set=None, print_fn=False):
+    if not registree_set:
+        if reg_num:
+            dbh = db.DB()
+            registree_set = dbh.get_registrees(reg_num)
+        else:
+            raise ValueError("Either a reg num to look up or a RegistreeSet should be provided")
     renderer = RegistreeSetRenderer(registree_set)
               
     renderer.save()
@@ -176,4 +180,4 @@ if __name__ == "__main__":
     parser.add_argument("--fn", action="store_true", help="Output resulting filename")
     args = parser.parse_args()
 
-    main(args.reg_num, args.out_dir, args.fn)
+    main(args.out_dir, reg_num = args.reg_num, print_fn=args.fn)

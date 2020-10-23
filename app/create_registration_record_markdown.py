@@ -46,7 +46,7 @@ It was cost-effective to retain the account set up for the 2020 MD Convention, s
 
 Please make EFT payments rather than cash deposits wherever possible.
 
-Use the reference "*MDC{self.registree_set.reg_num}*" when making payments. 
+Use the reference "*MDC{self.registree_set.reg_num:03}*" when making payments. 
 
 Your registration will be finalised on the payment of a deposit of R{300 * len(self.registree_set.registrees)}{' (R300 per attendee).' if len(self.registree_set.registrees) > 1 else '.'}
 
@@ -65,12 +65,14 @@ Thank you again for registering for the 2021 MD410 Convention.
 
     def __attrs_post_init__(self):
         self.names = []
-        self.out = [f"* **Registration Number**: MDC{self.registree_set.reg_num:03}"]
-
+        self.out = [f"# Registration Number: MDC{self.registree_set.reg_num:03} {{-}}",""]
+        
+        
         self.out.append(f"# Attendee Details - Registered on {self.registree_set.registrees[0].timestamp:%d/%m/%y at %H:%M} {{-}}")
         for (n, registree) in enumerate(self.registree_set.registrees, 1):
             self.registree = registree
             if n == 1:
+                self.out.append("")
                 self.out.append(f"## First Attendee {{-}}")
             else:
                 self.out.append("")
@@ -151,21 +153,17 @@ Thank you again for registering for the 2021 MD410 Convention.
         with open(self.fn, "w") as fh:
             fh.write("\n".join(self.out))
 
-
-
-def main(out_dir, reg_num=None, registree_set=None, print_fn=False):
+def main(reg_num=None, registree_set=None, out_dir="."):
     if not registree_set:
-        if reg_num:
+        if reg_num is not None:
             dbh = db.DB()
             registree_set = dbh.get_registrees(reg_num)
         else:
             raise ValueError("Either a reg num to look up or a RegistreeSet should be provided")
-    renderer = RegistreeSetRenderer(registree_set)
+    renderer = RegistreeSetRenderer(registree_set, out_dir)
               
     renderer.save()
-    if print_fn:
-        print(renderer.fn)
-    
+    return renderer.fn
 
 if __name__ == "__main__":
     import argparse
@@ -175,9 +173,9 @@ if __name__ == "__main__":
     )
     parser.add_argument("reg_num", type=int, help="The first reg_num to use.")
     parser.add_argument(
-        "--out_dir", default="/io/", help="The directory to write output to."
+        "--out_dir", default=".", help="The directory to write output to."
     )
     parser.add_argument("--fn", action="store_true", help="Output resulting filename")
     args = parser.parse_args()
 
-    main(args.out_dir, reg_num = args.reg_num, print_fn=args.fn)
+    main(reg_num = args.reg_num, out_dir=args.out_dir, print_fn=args.fn)

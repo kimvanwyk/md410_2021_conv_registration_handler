@@ -69,6 +69,7 @@ def upload_reg_form(reg_form_file):
     registree_set = parse_reg_form_fields(d)
     dbh = db.DB()
     dbh.save_registree_set(registree_set)
+    return registree_set
 
 if __name__ == "__main__":
     import argparse

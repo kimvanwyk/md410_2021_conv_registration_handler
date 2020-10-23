@@ -7,9 +7,9 @@ from datetime import date
 import os, os.path
 
 
-
 # from md410_2020_conv_common.db import DB
 import sys
+
 sys.path.insert(0, "/home/kimv/src/md410_2020_conv_common/md410_2020_conv_common")
 import db
 
@@ -36,7 +36,9 @@ def build_doc(registree_set, pull=False):
             print(f"Pulling {c[1]}")
             client.images.pull(c[1])
 
-    fn = create_registration_record_markdown.main(registree_set=registree_set, out_dir=".")
+    fn = create_registration_record_markdown.main(
+        registree_set=registree_set, out_dir="."
+    )
 
     res = client.containers.run(
         PDF_CONTAINER[1],
@@ -62,7 +64,9 @@ def process_reg_data(rebuild_reg_num=False, pull=False):
         registree_set = parse_data_file(fn)
         payees = dbh.get_2020_payees()
         print(f"Registrees: {registree_set.registree_names}")
-        print("Should any of the below payments from 2020 be applied to this registration?")
+        print(
+            "Should any of the below payments from 2020 be applied to this registration?"
+        )
         for (r, (name, amt)) in payees.items():
             print(f"{r:003}: {name}: R{amt}")
         print()
@@ -72,14 +76,18 @@ def process_reg_data(rebuild_reg_num=False, pull=False):
             if not payee_reg:
                 break
             previously_paid += payees[int(payee_reg)][-1]
-        registree_set.payments = [db.Payment(date(year=2020, month=5, day=1), previously_paid)]
+        registree_set.payments = [
+            db.Payment(date(year=2020, month=5, day=1), previously_paid)
+        ]
         dbh.save_registree_set(registree_set)
 
     else:
         registree_set = db.get_registrees(rebuild_reg_num)
     fn = build_doc(registree_set, pull)
     # s.upload_pdf_file(fn)
-    print(f"{'re' if rebuild_reg_num else ''}processed reg num {registree_set.reg_num}. File: {fn}")
+    print(
+        f"{'re' if rebuild_reg_num else ''}processed reg num {registree_set.reg_num}. File: {fn}"
+    )
     pyperclip.copy(f"evince {fn} &")
 
 
@@ -91,6 +99,8 @@ if __name__ == "__main__":
         "--rebuild",
         help="Rebuild the supplied reg_num only, no S3 download or DB upload",
     )
-    parser.add_argument("--pull", action="store_true", help="Whether to also pull fresh containers")
+    parser.add_argument(
+        "--pull", action="store_true", help="Whether to also pull fresh containers"
+    )
     args = parser.parse_args()
     process_reg_data(args.rebuild, args.pull)

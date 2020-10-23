@@ -60,15 +60,13 @@ def parse_reg_form_fields(form_data, out_dir=None):
             registree_data["timestamp"] = t
             registree_data["title"] = ""
             registrees.append(cls(**registree_data))
-    return db.RegistreeSet(reg_num, db.Events(**events), [], db.Extras(**extras), registrees)
+    return db.RegistreeSet(reg_num, db.Events(**events), db.Extras(**extras), registrees, [])
                               
 
-def upload_reg_form(reg_form_file):
+def parse_data_file(reg_form_file):
     with open(reg_form_file, "r") as fh:
         d = json.load(fh)
     registree_set = parse_reg_form_fields(d)
-    dbh = db.DB()
-    dbh.save_registree_set(registree_set)
     return registree_set
 
 if __name__ == "__main__":

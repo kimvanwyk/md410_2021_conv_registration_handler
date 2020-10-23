@@ -11,10 +11,10 @@ import os, os.path
 # from md410_2020_conv_common.db import DB
 import sys
 sys.path.insert(0, "/home/kimv/src/md410_2020_conv_common/md410_2020_conv_common")
-from db import DB
+import db
 
 import create_registration_record_markdown
-from upload_data import upload_reg_form
+from upload_data import parse_data_file
 
 import docker
 import pyperclip
@@ -54,25 +54,27 @@ def build_doc(registree_set, pull=False):
 
 def process_reg_data(rebuild_reg_num=False, pull=False):
     # s = s3.S3(reg_num)
-    db = DB()
+    dbh = db.DB()
     if not rebuild_reg_num:
         # fn = s.download_data_file()
         fn = "data.json"
-        registree_set = upload_reg_form(fn)
-        payees = db.get_2020_payees()
+
+        registree_set = parse_data_file(fn)
+        payees = dbh.get_2020_payees()
         print(f"Registrees: {registree_set.registree_names}")
         print("Should any of the below payments from 2020 be applied to this registration?")
         for (r, (name, amt)) in payees.items():
             print(f"{r:003}: {name}: R{amt}")
         print()
-        previous_payments = 0
+        previously_paid = 0
         while True:
             payee_reg = input("Applicable reg num: ")
             if not payee_reg:
                 break
-            previous_payments += payees[int(payee_reg)][-1]
-        print(previous_payments)
-        # db.record_payment(previous_payments, date(year=2020, month=5, day=1))
+            previously_paid += payees[int(payee_reg)][-1]
+        registree_set.payments = [db.Payment(date(year=2020, month=5, day=1), previously_paid)]
+        dbh.save_registree_set(registree_set)
+
     else:
         registree_set = db.get_registrees(rebuild_reg_num)
     fn = build_doc(registree_set, pull)

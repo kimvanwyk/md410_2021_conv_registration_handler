@@ -6,11 +6,7 @@ import attr
 import json
 import os.path
 
-# from md410_2020_conv_common.db import DB as common_db
-import sys
-
-sys.path.insert(0, "/home/kimv/src/md410_2020_conv_common/md410_2020_conv_common")
-import db
+from md410_2020_conv_common import db
 
 DESCRIPTIONS = {
     "full": "Full",
@@ -112,7 +108,7 @@ Thank you again for registering for the 2021 MD410 Convention.
         self.out.append("")
         self.out.append("")
         self.__payment_details()
-        self.fn = f"mdc2021_registration_{self.registree_set.reg_num}_{self.names}.txt"
+        self.fn = f"mdc2021_registration_{self.registree_set.reg_num:003}_{self.names}.txt"
         if self.out_dir:
             self.fn = os.path.join(self.out_dir, self.fn)
 

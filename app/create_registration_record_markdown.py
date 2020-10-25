@@ -67,9 +67,10 @@ Thank you again for registering for the 2021 MD410 Convention.
 
     def __attrs_post_init__(self):
         self.names = []
+        print(self.registree_set)
         self.out = [
             f"# Registration Number: MDC{self.registree_set.reg_num:03} {{-}}",
-            "",
+
         ]
 
         self.out.append(
@@ -99,6 +100,16 @@ Thank you again for registering for the 2021 MD410 Convention.
             self.render_extras()
         self.out.append("")
         self.out.append(f"# Total Cost: R{self.registree_set.cost} {{-}}")
+        if self.registree_set.paid:
+            self.out.append("")
+            self.out.append("")
+            self.out.append(f"Our records indicate that you paid R{self.registree_set.paid} towards the 2020 MD Convention, which the organising committee has held in the conference account. If these records are incorrect please conact the registration team urgently.")
+            if self.registree_set.paid_in_full:
+                self.out.append("")
+                self.out.append("**The payments you made for the 2020 MD Convention have covered your 2021 amount in full.**")
+            else:
+                self.out.append("")
+                self.out.append(f"# Still Owed: R{self.registree_set.still_owed} {{-}}")
         self.out.append("")
         self.out.append("")
         self.__payment_details()

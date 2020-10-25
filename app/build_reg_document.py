@@ -76,13 +76,14 @@ def process_reg_data(rebuild_reg_num=False, pull=False):
             if not payee_reg:
                 break
             previously_paid += payees[int(payee_reg)][-1]
-        registree_set.payments = [
-            db.Payment(date(year=2020, month=5, day=1), previously_paid)
-        ]
+        if previously_paid:
+            registree_set.payments = [
+                db.Payment(date(year=2020, month=5, day=1), previously_paid)
+            ]
         dbh.save_registree_set(registree_set)
 
     else:
-        registree_set = db.get_registrees(rebuild_reg_num)
+        registree_set = dbh.get_registrees(rebuild_reg_num)
     fn = build_doc(registree_set, pull)
     # s.upload_pdf_file(fn)
     print(

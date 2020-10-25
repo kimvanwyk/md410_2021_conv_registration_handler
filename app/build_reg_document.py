@@ -54,12 +54,11 @@ def build_doc(registree_set, pull=False):
     return f"{os.path.splitext(fn)[0]}.pdf"
 
 
-def process_reg_data(rebuild_reg_num=False, pull=False):
-    # s = s3.S3(reg_num)
+def process_reg_data(reg_num, rebuild=False, pull=False):
+    s = s3.S3(reg_num)
     dbh = db.DB()
-    if not rebuild_reg_num:
-        # fn = s.download_data_file()
-        fn = "data.json"
+    if not rebuild:
+        fn = s.download_data_file()
 
         registree_set = parse_data_file(fn)
         payees = dbh.get_2020_payees()
@@ -84,11 +83,11 @@ def process_reg_data(rebuild_reg_num=False, pull=False):
         dbh.save_registree_set(registree_set)
 
     else:
-        registree_set = dbh.get_registrees(rebuild_reg_num)
+        registree_set = dbh.get_registrees(reg_num)
     fn = build_doc(registree_set, pull)
-    # s.upload_pdf_file(fn)
+    s.upload_pdf_file(fn)
     print(
-        f"{'re' if rebuild_reg_num else ''}processed reg num {registree_set.reg_num}. File: {fn}"
+        f"{'re' if rebuild else ''}processed reg num {registree_set.reg_num}. File: {fn}"
     )
     pyperclip.copy(f"evince {fn} &")
 
@@ -98,11 +97,15 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument(
-        "--rebuild",
-        help="Rebuild the supplied reg_num only, no S3 download or DB upload",
+        "reg_num",
+        type=int,
+        help="The registration number to download data from or reprocess",
+    )
+    parser.add_argument(
+        "--rebuild", action="store_true", help="Rebuild the supplied reg_num only",
     )
     parser.add_argument(
         "--pull", action="store_true", help="Whether to also pull fresh containers"
     )
     args = parser.parse_args()
-    process_reg_data(args.rebuild, args.pull)
+    process_reg_data(args.reg_num, rebuild=args.rebuild, pull=args.pull)

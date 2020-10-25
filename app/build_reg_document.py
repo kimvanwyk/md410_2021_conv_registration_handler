@@ -80,6 +80,7 @@ def process_reg_data(rebuild_reg_num=False, pull=False):
             registree_set.payments = [
                 db.Payment(date(year=2020, month=5, day=1), previously_paid)
             ]
+            registree_set.process_payments()
         dbh.save_registree_set(registree_set)
 
     else:

@@ -67,7 +67,6 @@ Thank you again for registering for the 2021 MD410 Convention.
 
     def __attrs_post_init__(self):
         self.names = []
-        print(self.registree_set)
         self.out = [
             f"# Registration Number: MDC{self.registree_set.reg_num:03} {{-}}",
 

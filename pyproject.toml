@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "md410_2020_conv_reg_form_overall_creator"
-version = "0.1.0"
-description = "Script and flask app to coordinate S3 data retrieval, docker markdown and PDF creation and S3 upload of a completed form"
+name = "md410_2021_conv_registration_handler"
+version = "0.2.0"
+description = "Scripts to coordinate S3 data storage, document creation and record updating for MD410 2021 Convention registration"
 authors = ["Kim van Wyk <kimv@sahomeloans.com>"]
 
 [tool.poetry.dependencies]
@@ -13,7 +13,7 @@ psycopg2-binary = "^2.8"
 pyperclip = "^1.7"
 inquirer = "^2.6"
 pdfkit = "^0.6.1"
-md410-2020-conv-common = "^0.12"
+md410-2020-conv-common = "^1.00"
 
 [tool.poetry.dev-dependencies]
 ptpython = "^2.0"

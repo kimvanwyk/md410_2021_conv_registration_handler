@@ -28,7 +28,7 @@ class RegistreeSetRenderer(object):
         )
 
     def __payment_details(self):
-        self.out.append(f"# Payment Details {{-}}")
+        self.out.append(f"\\newpage\n# Payment Details {{-}}")
         self.out.append(
             f"""\
 

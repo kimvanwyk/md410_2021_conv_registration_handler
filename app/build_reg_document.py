@@ -34,8 +34,7 @@ def build_doc(registree_set, pull=False):
 
     fn = create_registration_record_markdown.main(
         registree_set=registree_set, out_dir="."
-    )
-
+    ).split('/')[-1]
     res = client.containers.run(
         PDF_CONTAINER[1],
         name=PDF_CONTAINER[0],

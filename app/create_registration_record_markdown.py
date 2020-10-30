@@ -29,6 +29,7 @@ class RegistreeSetRenderer(object):
 
     def __payment_details(self):
         self.out.append(f"\\newpage\n# Payment Details {{-}}")
+        deposit_explanation = f' (R{self.registree_set.registrees[0].deposit} per attendee).' if len(self.registree_set.registrees) > 1 else '.'
         self.out.append(
             f"""\
 
@@ -46,7 +47,7 @@ Please make EFT payments rather than cash deposits wherever possible.
 
 Use the reference "*MDC{self.registree_set.reg_num:03}*" when making payments. 
 
-Your registration will be finalised on the payment of a deposit of R{300 * len(self.registree_set.registrees)}{' (R300 per attendee).' if len(self.registree_set.registrees) > 1 else '.'}
+Your registration will be finalised on the payment of a deposit of R{self.registree_set.registrees[0].deposit * len(self.registree_set.registrees)}{deposit_explanation}
 
 Payments can be made in as many instalments as you wish, as long as full payment is received by 31 March 2021.
 

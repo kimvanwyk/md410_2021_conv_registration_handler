@@ -68,10 +68,10 @@ description = "The AWS SDK for Python"
 name = "boto3"
 optional = false
 python-versions = "*"
-version = "1.16.4"
+version = "1.16.5"
 
 [package.dependencies]
-botocore = ">=1.19.4,<1.20.0"
+botocore = ">=1.19.5,<1.20.0"
 jmespath = ">=0.7.1,<1.0.0"
 s3transfer = ">=0.3.0,<0.4.0"
 
@@ -81,7 +81,7 @@ description = "Low-level, data-driven core of boto 3."
 name = "botocore"
 optional = false
 python-versions = "*"
-version = "1.19.4"
+version = "1.19.5"
 
 [package.dependencies]
 jmespath = ">=0.7.1,<1.0.0"
@@ -199,11 +199,11 @@ version = "0.10.0"
 
 [[package]]
 category = "main"
-description = "Common libraries for applications related to the Lions MD410 2020 Convention"
+description = "Common libraries for applications related to the 2021 and 2021 Lions MD410 Conventions"
 name = "md410-2020-conv-common"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "1.0.0"
+version = "1.4.0"
 
 [package.dependencies]
 black = ">=19.10b0,<20.0"
@@ -440,7 +440,7 @@ version = "0.57.0"
 six = "*"
 
 [metadata]
-content-hash = "04cb60934e17a6dbebaa68dd8368bba6c279d69009c2582a7508910ffdeea15c"
+content-hash = "e914a2f1ede1e9a24903b27ddf10b816146b17cdcc9e3bc0b359a4b11c3a8541"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -465,12 +465,12 @@ blessed = [
     {file = "blessed-1.17.6.tar.gz", hash = "sha256:a9a774fc6eda05248735b0d86e866d640ca2fef26038878f7e4d23f7749a1e40"},
 ]
 boto3 = [
-    {file = "boto3-1.16.4-py2.py3-none-any.whl", hash = "sha256:60c78f96c690974cd388270e4c82e4807f5034c5544f8a26ec3c3844df726cff"},
-    {file = "boto3-1.16.4.tar.gz", hash = "sha256:8611d07488bb36b509d9a79a4ab593cf1c96f9c0d177733007568cbfa1079914"},
+    {file = "boto3-1.16.5-py2.py3-none-any.whl", hash = "sha256:9f3cf24eff67ae03c088c4dca45d8c845f52a8f5272f385cd6e2a6f40186c96f"},
+    {file = "boto3-1.16.5.tar.gz", hash = "sha256:163bf25d7c28be24392744485cf180bee4ff5e84c4ee891a32501e89dc352982"},
 ]
 botocore = [
-    {file = "botocore-1.19.4-py2.py3-none-any.whl", hash = "sha256:cd5d2fceef451ee28b149a0c7de848710daab52d8273330e092ccc316d42b2c7"},
-    {file = "botocore-1.19.4.tar.gz", hash = "sha256:c78fe2fb4790e9f06dc40a28402893f12088c4aa88b739475827d9674972f1c4"},
+    {file = "botocore-1.19.5-py2.py3-none-any.whl", hash = "sha256:50e6b9b0e082a9af620552b5d1b5966f1da09202d6ccd03fd2c9856ae0578db5"},
+    {file = "botocore-1.19.5.tar.gz", hash = "sha256:2bacdfb1eb66c885be18b7557202160f9eb48d81e16881e1ce5176881cc9d8aa"},
 ]
 certifi = [
     {file = "certifi-2020.6.20-py2.py3-none-any.whl", hash = "sha256:8fc0819f1f30ba15bdb34cceffb9ef04d99f420f68eb75d901e9560b8749fc41"},
@@ -512,8 +512,8 @@ jmespath = [
     {file = "jmespath-0.10.0.tar.gz", hash = "sha256:b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9"},
 ]
 md410-2020-conv-common = [
-    {file = "md410_2020_conv_common-1.0.0-py3-none-any.whl", hash = "sha256:efa2cc7ad466824b7a427c51e92d3d38053d0d3ad6fa303dbf2f170170f6f3a6"},
-    {file = "md410_2020_conv_common-1.0.0.tar.gz", hash = "sha256:81d0eae662c1283105a750452f11d306a8111c5f809b51596e774ef635a48c56"},
+    {file = "md410_2020_conv_common-1.4.0-py3-none-any.whl", hash = "sha256:1b449fbd13532275de1163cc7678edf7cbb77a5cfae705908f85dca1d4a89c51"},
+    {file = "md410_2020_conv_common-1.4.0.tar.gz", hash = "sha256:e9e4618930be32ef92bf117f6e29e94a535a3a22855a5ff5c43179ce490e35fc"},
 ]
 parso = [
     {file = "parso-0.7.1-py2.py3-none-any.whl", hash = "sha256:97218d9159b2520ff45eb78028ba8b50d2bc61dcc062a9682666f2dc4bd331ea"},

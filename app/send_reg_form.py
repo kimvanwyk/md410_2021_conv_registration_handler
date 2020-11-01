@@ -27,9 +27,7 @@ def send_email(reg_num=None, registree_set=None, fn=None):
             "Either a reg num to look up or a RegistreeSet should be provided"
         )
 
-    reg_num = f"MDC{registree_set.reg_num:003}"
     emails = "; ".join(set([r.email for r in registree_set.registrees if r.email]))
-    deposit = 300 * len(registrees)
 
     if emails:
         pyperclip.copy(emails)
@@ -38,7 +36,7 @@ def send_email(reg_num=None, registree_set=None, fn=None):
         pyperclip.copy(BCC)
         print(f"BCC: addresses copied to clipboard: {BCC}")
         input()
-        subject = f'Registration for 2020 MD410 Convention for {full_names}. Registration number{"s" if len(registrees) > 1 else ""}: {reg_nums}'
+        subject = f"Registration for the 2021 MD410 Convention for {registree_set.registree_names}. Registration number: MDC{registree_set.reg_num:003}"
         pyperclip.copy(subject)
         print(f"Subject copied to clipboard: {subject}")
         input()

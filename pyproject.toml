@@ -13,7 +13,7 @@ psycopg2-binary = "^2.8"
 pyperclip = "^1.7"
 inquirer = "^2.6"
 pdfkit = "^0.6.1"
-md410-2021-conv-common = "^1.4.0"
+md410-2021-conv-common = "^1.5.0"
 
 [tool.poetry.dev-dependencies]
 ptpython = "^2.0"

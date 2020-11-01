@@ -1,10 +1,10 @@
-Good day {first_names},
+Good day {registree_set.registree_first_names},
 
-Thank you for registering for the 2020 Multiple District 410 Convention, to be held at the Riverside Hotel in Ethekwini from 1-3 May 2019. 
+Thank you for registering for the 2021 Multiple District 410 Convention, to be held at the Riverside Hotel in Ethekwini from 30 April - 2 May 2021. 
 
 Please see attached for a record of your selected registration options. If there is a mistake, please contact the registration secretary Kim van Wyk on 083 384 4260 or vanwykk@gmail.com.
 
-The convention committee will be producing regular newsletters which will be emailed to you. The convention website at www.lionsconvention2020.co.za will also be regularly updated.
+The convention committee will be producing regular newsletters which will be emailed to you. The convention website at www.lionsconvention2021.co.za will also be regularly updated.
 
 Payment details are included in the attached document. Please make all payments to this account:
 
@@ -14,12 +14,14 @@ Payment details are included in the attached document. Please make all payments 
 * Account Number: 2015836799
 * Account Name: Convention 2020
 
-Please make EFT payments rather than cash deposits wherever possible. Use the reference "{reg_nums}" when making payments. 
+It was cost-effective to retain the account set up for the 2020 MD Convention, so the account name is still "Convention 2020".
 
-Your registration will be finalised on the payment of a deposit of R{deposit}. Payments can be made in as many instalments as you wish, as long as full payment is received by 31 March 2020.
+Please make EFT payments rather than cash deposits wherever possible. Use the reference "{registree_set.reg_num_text}" when making payments. 
+
+Your registration will be finalised on the payment of a deposit of R{registree_set.deposit}. Payments can be made in as many instalments as you wish, as long as full payment is received by {registree_set.full_payment_deadline:%d %B %Y}.
 
 Please send proof of payment for any payments made to vanwykk@gmail.com and david.shone.za@gmail.com.
 
-Thank you again for registering for the 2020 MD410 Convention.
+Thank you again for registering for the 2021 MD410 Convention.
 
-The 2020 MD410 Convention Organising Committee
+The 2021 MD410 Convention Organising Committee

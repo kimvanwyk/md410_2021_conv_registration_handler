@@ -6,7 +6,7 @@ import attr
 import json
 import os.path
 
-from md410_2020_conv_common import db
+from md410_2021_conv_common import db
 
 DESCRIPTIONS = {
     "full": "Full",
@@ -29,7 +29,11 @@ class RegistreeSetRenderer(object):
 
     def __payment_details(self):
         self.out.append(f"\\newpage\n# Payment Details {{-}}")
-        deposit_explanation = f' (R{self.registree_set.registrees[0].deposit} per attendee).' if len(self.registree_set.registrees) > 1 else '.'
+        deposit_explanation = (
+            f" (R{self.registree_set.registrees[0].deposit} per attendee)."
+            if len(self.registree_set.registrees) > 1
+            else "."
+        )
         self.out.append(
             f"""\
 
@@ -66,7 +70,6 @@ Thank you again for registering for the 2021 MD410 Convention.
         self.names = []
         self.out = [
             f"# Registration Number: MDC{self.registree_set.reg_num:03} {{-}}",
-
         ]
 
         self.out.append(
@@ -99,17 +102,23 @@ Thank you again for registering for the 2021 MD410 Convention.
         if self.registree_set.paid:
             self.out.append("")
             self.out.append("")
-            self.out.append(f"Our records indicate that you paid R{self.registree_set.paid} towards the 2020 MD Convention, which the organising committee has held in the conference account. If these records are incorrect please conact the registration team urgently.")
+            self.out.append(
+                f"Our records indicate that you paid R{self.registree_set.paid} towards the 2020 MD Convention, which the organising committee has held in the conference account. If these records are incorrect please conact the registration team urgently."
+            )
             if self.registree_set.paid_in_full:
                 self.out.append("")
-                self.out.append("**The payments you made for the 2020 MD Convention have covered your 2021 amount in full.**")
+                self.out.append(
+                    "**The payments you made for the 2020 MD Convention have covered your 2021 amount in full.**"
+                )
             else:
                 self.out.append("")
                 self.out.append(f"# Still Owed: R{self.registree_set.still_owed} {{-}}")
         self.out.append("")
         self.out.append("")
         self.__payment_details()
-        self.fn = f"mdc2021_registration_{self.registree_set.reg_num:003}_{self.names}.txt"
+        self.fn = (
+            f"mdc2021_registration_{self.registree_set.reg_num:003}_{self.names}.txt"
+        )
         if self.out_dir:
             self.fn = os.path.join(self.out_dir, self.fn)
 

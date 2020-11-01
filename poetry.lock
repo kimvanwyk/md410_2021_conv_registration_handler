@@ -199,8 +199,8 @@ version = "0.10.0"
 
 [[package]]
 category = "main"
-description = "Common libraries for applications related to the 2021 and 2021 Lions MD410 Conventions"
-name = "md410-2020-conv-common"
+description = "Common libraries for applications related to the 2020 and 2021 Lions MD410 Conventions"
+name = "md410-2021-conv-common"
 optional = false
 python-versions = ">=3.7,<4.0"
 version = "1.4.0"
@@ -440,7 +440,7 @@ version = "0.57.0"
 six = "*"
 
 [metadata]
-content-hash = "e914a2f1ede1e9a24903b27ddf10b816146b17cdcc9e3bc0b359a4b11c3a8541"
+content-hash = "b4034a242d2d90bcf0081f32ea28d8948390d4974e2229d281ed5619c3a1d45f"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -511,9 +511,9 @@ jmespath = [
     {file = "jmespath-0.10.0-py2.py3-none-any.whl", hash = "sha256:cdf6525904cc597730141d61b36f2e4b8ecc257c420fa2f4549bac2c2d0cb72f"},
     {file = "jmespath-0.10.0.tar.gz", hash = "sha256:b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9"},
 ]
-md410-2020-conv-common = [
-    {file = "md410_2020_conv_common-1.4.0-py3-none-any.whl", hash = "sha256:1b449fbd13532275de1163cc7678edf7cbb77a5cfae705908f85dca1d4a89c51"},
-    {file = "md410_2020_conv_common-1.4.0.tar.gz", hash = "sha256:e9e4618930be32ef92bf117f6e29e94a535a3a22855a5ff5c43179ce490e35fc"},
+md410-2021-conv-common = [
+    {file = "md410_2021_conv_common-1.4.0-py3-none-any.whl", hash = "sha256:0523eb59d2f44115a4812e2975bfd2ab70ba88f10ca2c5d549d0d9a31ffa0e43"},
+    {file = "md410_2021_conv_common-1.4.0.tar.gz", hash = "sha256:5274b554e1c6b78de04b569a792fa70d3fe4b9e7092a0a0af06bdbc2d6f1c552"},
 ]
 parso = [
     {file = "parso-0.7.1-py2.py3-none-any.whl", hash = "sha256:97218d9159b2520ff45eb78028ba8b50d2bc61dcc062a9682666f2dc4bd331ea"},

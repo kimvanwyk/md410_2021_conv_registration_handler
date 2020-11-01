@@ -4,7 +4,7 @@
 import attr
 from dateutil.parser import parse
 
-from md410_2020_conv_common import db
+from md410_2021_conv_common import db
 
 import json
 import os.path

@@ -18,7 +18,7 @@ import s3
 
 PDF_CONTAINER = (
     "pdf",
-    "registry.gitlab.com/md410_2020_conv/md410_2020_conv_reg_form_pdf_creator:latest",
+    "registry.gitlab.com/md410_2021_conv/md410_2021_conv_pdf_creator:latest",
 )
 NETWORK = "container:md410_2020_conv_reg_form_server_config_postgres_1"
 
@@ -34,7 +34,7 @@ def build_doc(registree_set, pull=False):
 
     fn = create_registration_record_markdown.main(
         registree_set=registree_set, out_dir="."
-    ).split('/')[-1]
+    ).split("/")[-1]
     res = client.containers.run(
         PDF_CONTAINER[1],
         name=PDF_CONTAINER[0],
@@ -97,7 +97,9 @@ if __name__ == "__main__":
         help="The registration number to download data from or reprocess",
     )
     parser.add_argument(
-        "--rebuild", action="store_true", help="Rebuild the supplied reg_num only",
+        "--rebuild",
+        action="store_true",
+        help="Rebuild the supplied reg_num only",
     )
     parser.add_argument(
         "--pull", action="store_true", help="Whether to also pull fresh containers"

@@ -203,7 +203,7 @@ description = "Common libraries for applications related to the 2020 and 2021 Li
 name = "md410-2021-conv-common"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "1.5.0"
+version = "1.7.0"
 
 [package.dependencies]
 black = ">=19.10b0,<20.0"
@@ -512,8 +512,8 @@ jmespath = [
     {file = "jmespath-0.10.0.tar.gz", hash = "sha256:b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9"},
 ]
 md410-2021-conv-common = [
-    {file = "md410_2021_conv_common-1.5.0-py3-none-any.whl", hash = "sha256:f42e9c1f62408c48b13b5114cc56351ec162cfa517de0240a9664409ede85025"},
-    {file = "md410_2021_conv_common-1.5.0.tar.gz", hash = "sha256:920131912d9e83979831bbfc6b53bc559c1b39867b7096e091b06c553b992603"},
+    {file = "md410_2021_conv_common-1.7.0-py3-none-any.whl", hash = "sha256:81480fa8a8297bad15e2fa74176829f42f87f6903f68d08b4b9e39875794a8a7"},
+    {file = "md410_2021_conv_common-1.7.0.tar.gz", hash = "sha256:f4b1207a306091a734be652a11836d5e0ad3d409239921ea5fe741fdd64d083c"},
 ]
 parso = [
     {file = "parso-0.7.1-py2.py3-none-any.whl", hash = "sha256:97218d9159b2520ff45eb78028ba8b50d2bc61dcc062a9682666f2dc4bd331ea"},

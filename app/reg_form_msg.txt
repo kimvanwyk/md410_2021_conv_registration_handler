@@ -18,7 +18,7 @@ It was cost-effective to retain the account set up for the 2020 MD Convention, s
 
 Please make EFT payments rather than cash deposits wherever possible. Use the reference "{registree_set.reg_num_text}" when making payments. 
 
-Your registration will be finalised on the payment of a deposit of R{registree_set.deposit}. Payments can be made in as many instalments as you wish, as long as full payment is received by {registree_set.full_payment_deadline:%d %B %Y}.
+Your registration will be finalised on the payment of a deposit of R{constants.DEPOSIT}. Payments can be made in as many instalments as you wish, as long as full payment is received by {constants.FULL_PAYMENT_DEADLINE:%d %B %Y}.
 
 Please send proof of payment for any payments made to vanwykk@gmail.com and david.shone.za@gmail.com.
 

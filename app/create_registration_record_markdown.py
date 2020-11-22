@@ -6,7 +6,7 @@ import attr
 import json
 import os.path
 
-from md410_2021_conv_common import db
+from md410_2021_conv_common import db, constants
 
 DESCRIPTIONS = {
     "full": "Full",
@@ -30,7 +30,7 @@ class RegistreeSetRenderer(object):
     def __payment_details(self):
         self.out.append(f"\\newpage\n# Payment Details {{-}}")
         deposit_explanation = (
-            f" (R{self.registree_set.registrees[0].deposit} per attendee)."
+            f" (R{constants.DEPOSIT} per attendee)."
             if len(self.registree_set.registrees) > 1
             else "."
         )
@@ -49,18 +49,18 @@ It was cost-effective to retain the account set up for the 2020 MD Convention, s
 
 Please make EFT payments rather than cash deposits wherever possible.
 
-Use the reference "*MDC{self.registree_set.reg_num:03}*" when making payments. 
+Use the reference "*{self.registree_set.reg_num_text}*" when making payments. 
 
-Your registration will be finalised on the payment of a deposit of R{self.registree_set.registrees[0].deposit * len(self.registree_set.registrees)}{deposit_explanation}
+Your registration will be finalised on the payment of a deposit of R{self.registree_set.deposit}{deposit_explanation}
 
-Payments can be made in as many instalments as you wish, as long as full payment is received by 31 March 2021.
+Payments can be made in as many instalments as you wish, as long as full payment is received by {constants.FULL_PAYMENT_DEADLINE:%d %B %Y}.
 
 Please send proof of payment for any payments made to [vanwykk@gmail.com](mailto:vanwykk@gmail.com) and [david.shone.za@gmail.com](mailto:david.shone.za@gmail.com).
 
 ## Cancellations {{-}}
 
-* If your registration is cancelled before 1 April 2021, 90% of the payments you have made will be refunded.
-* Cancellations after 1 April will not be refunded as the full expenses will already have been incurred for the registration.
+* If your registration is cancelled before {constants.CANCELLATION_DEADLINE:%d %B %Y}, 90% of the payments you have made will be refunded.
+* Cancellations after {constants.CANCELLATION_DEADLINE:%d %B} will not be refunded as the full expenses will already have been incurred for the registration.
 
 Thank you again for registering for the 2021 MD410 Convention.
 """
@@ -69,7 +69,7 @@ Thank you again for registering for the 2021 MD410 Convention.
     def __attrs_post_init__(self):
         self.names = []
         self.out = [
-            f"# Registration Number: MDC{self.registree_set.reg_num:03} {{-}}",
+            f"# Registration Number: {self.registree_set.reg_num_text} {{-}}",
         ]
 
         self.out.append(

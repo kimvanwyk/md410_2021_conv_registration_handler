@@ -20,7 +20,6 @@ PDF_CONTAINER = (
     "pdf",
     "registry.gitlab.com/md410_2021_conv/md410_2021_conv_pdf_creator:latest",
 )
-NETWORK = "container:md410_2020_conv_reg_form_server_config_postgres_1"
 
 
 def build_doc(registree_set, pull=False):
@@ -39,7 +38,6 @@ def build_doc(registree_set, pull=False):
         PDF_CONTAINER[1],
         name=PDF_CONTAINER[0],
         command=f"/io/{fn}",
-        network=NETWORK,
         volumes=volumes,
         auto_remove=True,
         stdout=True,

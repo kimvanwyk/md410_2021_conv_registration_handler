@@ -3,7 +3,7 @@
 
 import os.path
 
-from md410_2021_conv_common.db import DB
+from md410_2021_conv_common import db, constants
 import s3
 
 import attr
@@ -20,8 +20,8 @@ def send_email(reg_num=None, registree_set=None, fn=None):
         fn = s.download_pdf_reg_file(reg_num)
 
     if reg_num is not None:
-        db = DB()
-        registree_set = db.get_registrees(args.reg_num)
+        dbh = db.DB()
+        registree_set = dbh.get_registrees(args.reg_num)
     elif registree_set is None:
         raise ValueError(
             "Either a reg num to look up or a RegistreeSet should be provided"
@@ -40,7 +40,9 @@ def send_email(reg_num=None, registree_set=None, fn=None):
         pyperclip.copy(subject)
         print(f"Subject copied to clipboard: {subject}")
         input()
-        body = BODY.format(**locals())
+        kwds = locals()
+        kwds.update(globals())
+        body = BODY.format(**kwds)
         pyperclip.copy(body)
         print(body)
         input()

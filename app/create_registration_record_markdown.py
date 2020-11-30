@@ -103,7 +103,7 @@ Thank you again for registering for the 2021 MD410 Convention.
             self.out.append("")
             self.out.append("")
             self.out.append(
-                f"Our records indicate that you paid R{self.registree_set.paid} towards the 2020 MD Convention, which the organising committee has held in the conference account. If these records are incorrect please conact the registration team urgently."
+                f"Our records indicate that you paid R{self.registree_set.paid} towards the 2020 MD Convention, which the organising committee has held in the conference account. If these records are incorrect please contact the registration team urgently."
             )
             if self.registree_set.paid_in_full:
                 self.out.append("")

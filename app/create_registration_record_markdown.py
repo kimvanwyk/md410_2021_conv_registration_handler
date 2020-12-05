@@ -1,7 +1,3 @@
-""" Create a registration record for the Lions MD410 2020 Convenrtion
-from form data from the convention website
-"""
-
 import attr
 import json
 import os.path

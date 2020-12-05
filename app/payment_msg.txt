@@ -1,9 +1,9 @@
-Good day {first_names},
+Good day {registree_set.registree_first_names},
 
-We have received your payment for your registration for the 2020 Multiple District 410 Convention.
+We have received your payment for your registration for the 2021 Multiple District 410 Convention.
 
 Please see attached for a record of the payments we have received from you. If there is a mistake, please contact the registration secretary Kim van Wyk on 083 384 4260 or vanwykk@gmail.com.
 
-Thank you again for registering for the 2020 MD410 Convention.
+Thank you again for registering for the 2021 MD410 Convention.
 
-The 2020 MD410 Convention Organising Committee
+The 2021 MD410 Convention Organising Committee

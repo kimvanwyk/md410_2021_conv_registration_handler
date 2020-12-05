@@ -1,9 +1,9 @@
-""" Obtain a payment record for a given reg number and provide email steps
+""" Obtain a reg form record for a given reg number and provide email steps
 """
 
 import os.path
 
-from md410_2021_conv_common.db import DB
+from md410_2021_conv_common import db, constants
 import s3
 
 import attr
@@ -14,19 +14,20 @@ with open("payment_msg.txt", "r") as fh:
     BODY = fh.read()
 
 
-def send_email(reg_num):
-    s = s3.S3(reg_num)
-    fn = s.download_pdf_payment_file(reg_num)
+def send_email(reg_num=None, registree_set=None, fn=None):
+    if fn is None:
+        s = s3.S3(reg_num)
+        fn = s.download_pdf_reg_file(reg_num)
 
-    db = DB()
-    registrees = db.get_registrees(args.reg_num)
-    reg_nums = "/".join([f"{r.reg_num:03}" for r in registrees])
-    reg_nums = f"MDC{reg_nums}"
-    first_names = " and ".join([r.titled_first_names for r in registrees])
-    full_names = " and ".join(
-        [f"{r.titled_first_names} {r.last_name.strip()}" for r in registrees]
-    )
-    emails = "; ".join(set([r.email for r in registrees if r.email]))
+    if reg_num is not None:
+        dbh = db.DB()
+        registree_set = dbh.get_registrees(args.reg_num)
+    elif registree_set is None:
+        raise ValueError(
+            "Either a reg num to look up or a RegistreeSet should be provided"
+        )
+
+    emails = "; ".join(set([r.email for r in registree_set.registrees if r.email]))
 
     if emails:
         pyperclip.copy(emails)
@@ -35,16 +36,20 @@ def send_email(reg_num):
         pyperclip.copy(BCC)
         print(f"BCC: addresses copied to clipboard: {BCC}")
         input()
-        subject = f'Payments for 2020 MD410 Convention for {full_names}. Registration number{"s" if len(registrees) > 1 else ""}: {reg_nums}'
+        subject = f"Payments for the 2021 MD410 Convention for {registree_set.registree_names}. Registration number: MDC{registree_set.reg_num:003}"
         pyperclip.copy(subject)
         print(f"Subject copied to clipboard: {subject}")
         input()
-        body = BODY.format(**locals())
+        kwds = locals()
+        kwds.update(globals())
+        body = BODY.format(**kwds)
         pyperclip.copy(body)
         print(body)
         input()
         pyperclip.copy(fn)
         print(os.path.abspath(fn))
+    else:
+        print("No email addresses supplied")
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ import os.path
 BOOLS = (
     "first_mdc",
     "mjf_lunch",
-    # "pdg_breakfast",
+    "pdg_dinner",
     # "sharks_board",
     # "golf",
     # "sight_seeing",

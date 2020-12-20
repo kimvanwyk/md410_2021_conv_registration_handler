@@ -6,8 +6,9 @@ from md410_2021_conv_common import db, constants
 
 DESCRIPTIONS = {
     "full": "Full",
+    "district_convention": "District Convention",
     "banquet": "Banquet",
-    "convention": "MD410 Convention",
+    "md_convention": "MD410 Convention",
     "theme": "Theme Evening",
     "pins": "Convention Pin",
 }
@@ -143,6 +144,9 @@ Thank you again for registering for the 2021 MD410 Convention.
         )
         self.out.append(
             f"* **Attendee will attend the Melvin Jones lunch:** {'Yes' if self.registree.mjf_lunch else 'No'}"
+        )
+        self.out.append(
+            f"* **Attendee will attend the PDGs Dinner:** {'Yes' if self.registree.pdg_dinner else 'No'}"
         )
         self.out.append(f"* **Details On Name Badge:** {self.registree.name_badge}")
         if self.registree.auto_name_badge:
